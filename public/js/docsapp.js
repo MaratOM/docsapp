@@ -1,6 +1,7 @@
 jQuery(function($){
   
   (function(docsapp){
+
     var Doc = Backbone.Model.extend({
       defaults: {
         code: 0,
@@ -50,8 +51,8 @@ jQuery(function($){
       comparator: function(a,b) {
         var aComp, bComp;
         if(this.sortField == 'code') {
-          aComp = parseInt(a.get(this.sortField));
-          bComp = parseInt(b.get(this.sortField));        
+          aComp = parseInt(a.get(this.sortField), 10);
+          bComp = parseInt(b.get(this.sortField), 10);        
         }
         else if(this.sortField == 'title'){
           aComp = a.get(this.sortField);
@@ -466,6 +467,7 @@ jQuery(function($){
       
       clear: function() {
         this.collectionViewed = [];
+        this.collectionToDeleteAll = [];
         this.$("tbody tr").remove();
       },
       
@@ -476,9 +478,7 @@ jQuery(function($){
       hideSortingArrows: function() {
         this.$('thead .sort-arrow').hide();
       },       
-      
-      
-      
+
       toggleDeleleAll: function() {
         var collectionToMarkToDelete = this.collectionToDeleteAll.length > 0 ? this.collectionToDeleteAll : this.collection.models;
       
@@ -509,7 +509,7 @@ jQuery(function($){
     
       render: function() {
         this.$el.html(this.templateDeleteDocs({toDelete: this.collection.toDelete().length}));
-        $(".content .toolbar").append(this.el);
+        docsapp.toolbarEl.append(this.el);
       },
     
       deleteMarked: function() {
@@ -531,15 +531,114 @@ jQuery(function($){
         }
       }
     });
+
+    var DemoOption = Backbone.Model.extend({
+      defaults: {
+        enabled: true
+      },
+      
+      initialize: function() {
+        this.setGlobalOption();
+      }, 
+      
+      toggleEnable: function() {
+        this.set({enabled: !this.get("enabled")});
+        this.setGlobalOption();
+      }, 
+      
+      setGlobalOption: function() {
+        docsapp[this.get("optionName")] = this.get("enabled");
+      }       
+    });
     
-    var MainDocsAppView = Backbone.View.extend({
-      el: "#docsapp",
+    var DemoOptionsList = Backbone.Collection.extend({
+      model: DemoOption,
+      
+      localStorage: new Store("demo")
+    });    
+    var DemoOptionView = Backbone.View.extend({
+      tagName:  "li",
+  
+      templateDemoOption: docsapp.templates.demoOption,
+  
+      events: {
+        "change   .check"        : "toggleEnable"
+      },
+  
+      render: function() {
+        this.$el.html(this.templateDemoOption(this.model.attributes));
+  
+        return this;
+      },
+      
+      toggleEnable: function() {
+        this.model.toggleEnable();
+        docsapp.demoOptionsListView.mainAppRerender();
+      }
+    });
+    
+    var DemoOptionsListView = Backbone.View.extend({
+      tagName: "ul",
+      className: "demo-options",
+      collectionViewed: [],
+      
+      initialize: function() {
+        this.render();
+      },       
+  
+      render: function() {
+        _.each(this.collection.models, function(model) {
+          var demoOptionView = new DemoOptionView({model: model}).render().el;
+          this.collectionViewed.push(demoOptionView);
+          this.$el.append(demoOptionView);
+        }, this);
+        docsapp.demoEl.append(this.el);
+        
+        return this;
+      },
+      
+      mainAppRerender: function() {
+        docsapp.mainDocsAppView = undefined;
+        docsapp.toolbarEl.empty();
+        docsapp.contentEl.empty();
+        docsapp.demoEl.empty();        
+
+        docsapp.mainDocsAppView = new MainDocsAppView({
+          creatingEnabled   : docsapp.creatingEnabled,
+          searchingEnabled  : docsapp.searchingEnabled,
+          sortingEnabled    : docsapp.sortingEnabled,
+          deletingEnabled   : docsapp.deletingEnabled,
+          editingEnabled    : docsapp.editingEnabled
+        });         
+      }
+    });
+    
+    var LoadDataView = Backbone.View.extend({
+      el: ".demo",
       templateLoadData: docsapp.templates.loadData,
       
       events: {
         "click a.load-data": "loadData"
-      },      
+      },
       
+      initialize: function() {
+        this.render();
+      },       
+  
+      render: function() {
+        docsapp.demoEl.append(this.templateLoadData);
+        
+        return this;
+      },
+      
+      loadData: function() {
+       localStorage.clear('docsapp');
+       docsapp.docsList.fetch();
+        _.each(docsapp.data, function(model) {docsapp.docsList.create(model);});        
+      }       
+    });              
+
+    var MainDocsAppView = Backbone.View.extend({
       initialize: function() {
         docsapp.docsList         = new DocsList();
         docsapp.creatingEnabled  = this.options.creatingEnabled || false;
@@ -553,12 +652,13 @@ jQuery(function($){
       
       render: function() {
         docsapp.contentEl = $('.content');
-        docsapp.toolbarEl = $('.content .toolbar');
+        docsapp.toolbarEl = $('.toolbar');
+        docsapp.demoEl = $('.demo');        
 
         docsapp.errorView = new ErrorView({});  
         docsapp.docsListView = new DocsListView({collection: docsapp.docsList});
 
-        if(docsapp.searchingEnabled) {
+        if(docsapp.searchingEnabled) {docsapp.searchView = {};
           docsapp.searchView = new SearchView({collection : docsapp.docsList});
         }
         if(docsapp.creatingEnabled) {
@@ -570,17 +670,21 @@ jQuery(function($){
         if(docsapp.sortingEnabled) {
           docsapp.sortView = new SortView({collection : docsapp.docsList});
         }
-        
-        docsapp.contentEl.append(this.templateLoadData);
+
+        new LoadDataView();
+
+        docsapp.demoOptionsListView = new DemoOptionsListView({
+          collection: new DemoOptionsList([
+            {optionName: 'creatingEnabled', optionTitle: 'Добавление', enabled: docsapp.creatingEnabled},
+            {optionName: 'searchingEnabled', optionTitle: 'Поиск', enabled: docsapp.searchingEnabled},
+            {optionName: 'sortingEnabled', optionTitle: 'Сортировка', enabled: docsapp.sortingEnabled},
+            {optionName: 'deletingEnabled', optionTitle: 'Удаление', enabled: docsapp.deletingEnabled},
+            {optionName: 'editingEnabled', optionTitle: 'Редактирование', enabled: docsapp.editingEnabled}
+          ])
+        }); 
         
         return this;
-      },
-      
-      loadData: function() {
-       localStorage.clear('docsapp');
-       docsapp.docsList.fetch();
-        _.each(docsapp.data, function(model) {docsapp.docsList.create(model);});        
-      }       
+      }      
     });
     
     var Router = Backbone.Router.extend({
@@ -595,7 +699,7 @@ jQuery(function($){
           sortingEnabled    : true,
           deletingEnabled   : true,
           editingEnabled    : true
-        });        
+        });
       }
     });    
     

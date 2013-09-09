@@ -52,6 +52,10 @@
 		"<a href=\"#\" title=\"Кликните, чтобы загрузить данные из файла\" class=\"load-data\">загрузить данные из файла</a>"
 	].join("");		
 
+	templates.demoOption = [
+		"<input title=\"Отметьте, чтобы применить опцию\" class=\"check\" type=\"checkbox\" <%if(enabled) {%>checked<%}%> value=\"<%= optionName%>\"/><%= optionTitle%>",
+	].join("");
+
 	for(var temp in templates) {
 		if(templates.hasOwnProperty(temp)) {
 			templates[temp] = _.template(templates[temp]);

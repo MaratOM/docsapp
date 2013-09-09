@@ -80,15 +80,18 @@ input {
 
 /* line 59, ../scss/style.scss */
 .toolbar {
+  display: inline-block;
+  width: 100%;
+  min-height: 25px;
   position: relative;
   margin-top: 2em;
 }
-/* line 63, ../scss/style.scss */
+/* line 66, ../scss/style.scss */
 .toolbar .error {
   float: right;
   color: #ff3d00;
 }
-/* line 66, ../scss/style.scss */
+/* line 69, ../scss/style.scss */
 .toolbar .error p {
   padding: 0 1em;
   border: 1px solid #ff3d00;
@@ -100,12 +103,12 @@ input {
   border-radius: 4px / 4px;
 }
 
-/* line 74, ../scss/style.scss */
+/* line 77, ../scss/style.scss */
 #search {
   border: none;
   display: inline-block;
 }
-/* line 78, ../scss/style.scss */
+/* line 81, ../scss/style.scss */
 #search input {
   border: 1px solid #cccccc;
   -moz-border-radius-topright: 0;
@@ -129,7 +132,7 @@ input {
   -o-box-shadow: rgba(0, 0, 0, 0.2) 0 1px 1px 0;
   box-shadow: rgba(0, 0, 0, 0.2) 0 1px 1px 0;
 }
-/* line 88, ../scss/style.scss */
+/* line 91, ../scss/style.scss */
 #search .clear-search {
   border: 1px solid #cccccc;
   width: 20px;
@@ -148,11 +151,11 @@ input {
   border-left: none;
 }
 
-/* line 96, ../scss/style.scss */
+/* line 99, ../scss/style.scss */
 #create-doc {
   display: inline-block;
 }
-/* line 99, ../scss/style.scss */
+/* line 102, ../scss/style.scss */
 #create-doc .create-data {
   position: absolute;
   top: 35px;
@@ -165,27 +168,27 @@ input {
   -o-box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
   box-shadow: rgba(0, 0, 0, 0.2) 0 5px 6px 0;
 }
-/* line 109, ../scss/style.scss */
+/* line 112, ../scss/style.scss */
 #create-doc .create-data input.code {
   width: 13%;
 }
-/* line 113, ../scss/style.scss */
+/* line 116, ../scss/style.scss */
 #create-doc .create-data input.title {
   width: 80%;
   margin-left: 0.5em;
 }
-/* line 119, ../scss/style.scss */
+/* line 122, ../scss/style.scss */
 #create-doc .create-data .hide-create-inputs {
   text-decoration: none;
   margin-left: 0.5em;
 }
 
-/* line 126, ../scss/style.scss */
+/* line 129, ../scss/style.scss */
 #delete-docs {
   display: inline-block;
 }
 
-/* line 130, ../scss/style.scss */
+/* line 133, ../scss/style.scss */
 #docs-table {
   width: 100%;
   padding: 0;
@@ -193,7 +196,7 @@ input {
   border-collapse: collapse;
   clear: left;
 }
-/* line 137, ../scss/style.scss */
+/* line 140, ../scss/style.scss */
 #docs-table th.checkbox, #docs-table td.checkbox {
   width: 5%;
   min-width: 30px;
@@ -201,23 +204,23 @@ input {
   text-align: center;
   vertical-align: middle;
 }
-/* line 145, ../scss/style.scss */
+/* line 148, ../scss/style.scss */
 #docs-table .code {
   width: 7%;
   text-align: center;
   vertical-align: middle;
 }
-/* line 151, ../scss/style.scss */
+/* line 154, ../scss/style.scss */
 #docs-table .title {
   width: 88%;
   text-align: left;
   vertical-align: middle;
 }
-/* line 157, ../scss/style.scss */
+/* line 160, ../scss/style.scss */
 #docs-table tr, #docs-table th {
   border: 1px solid #cccccc;
 }
-/* line 161, ../scss/style.scss */
+/* line 164, ../scss/style.scss */
 #docs-table th {
   background: #f9f9f9;
   /* Old browsers */
@@ -236,37 +239,37 @@ input {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e5e5e5',GradientType=0 );
   /* IE6-9 */
 }
-/* line 172, ../scss/style.scss */
+/* line 175, ../scss/style.scss */
 #docs-table th.title {
   text-align: left;
 }
-/* line 176, ../scss/style.scss */
+/* line 179, ../scss/style.scss */
 #docs-table th.code.sorted, #docs-table th.title.sorted {
   cursor: pointer;
 }
-/* line 179, ../scss/style.scss */
+/* line 182, ../scss/style.scss */
 #docs-table th .sort-arrow {
   margin-left: 0.2em;
 }
-/* line 184, ../scss/style.scss */
+/* line 187, ../scss/style.scss */
 #docs-table td {
   border-top: none;
   vertical-align: middle;
 }
-/* line 188, ../scss/style.scss */
+/* line 191, ../scss/style.scss */
 #docs-table td input[type="text"] {
   width: 100%;
   height: 1em;
 }
-/* line 193, ../scss/style.scss */
+/* line 196, ../scss/style.scss */
 #docs-table td .highlight {
   background: yellow;
 }
-/* line 197, ../scss/style.scss */
+/* line 200, ../scss/style.scss */
 #docs-table td .to-delete {
   color: #ff3d00;
 }
-/* line 202, ../scss/style.scss */
+/* line 205, ../scss/style.scss */
 #docs-table td.title .doc-delete {
   float: right;
   margin-top: 0.3em;
@@ -276,11 +279,28 @@ input {
   width: 15px;
   height: 15px;
 }
-/* line 212, ../scss/style.scss */
+/* line 215, ../scss/style.scss */
 #docs-table td.title:hover .doc-delete {
   display: inline-block;
 }
-/* line 218, ../scss/style.scss */
+/* line 221, ../scss/style.scss */
 #docs-table td, #docs-table th {
   padding: 2px 10px 2px 5px;
+}
+
+/* line 226, ../scss/style.scss */
+.demo {
+  width: 100%;
+  margin-top: 5em;
+}
+/* line 229, ../scss/style.scss */
+.demo .demo-options {
+  width: 100%;
+  border: 1px solid #cccccc;
+  text-align: center;
+}
+/* line 234, ../scss/style.scss */
+.demo .demo-options li {
+  padding: 0.5em 2em;
+  display: inline-block;
 }
