@@ -1,4 +1,4 @@
-(function(docsapp){
+define([], function() {
 
 	var data = [
 		{code: 1,	title: "Паспорт гражданина СССР"},
@@ -11,8 +11,6 @@
 		{code: 3,	title: "Свидетельство о рождении"},
 		{code: 4,	title: "Удостоверение личности офицера"},
 	];
-
-	docsapp.data = data;
-	window.docsapp = docsapp;
-
-})(window.docsapp || {});
+	
+	return data;
+});

@@ -1,5 +1,5 @@
-(function(docsapp){
-
+define(["underscore"], function(_) {
+	
 	var templates = {};
 	
 	templates.search = [
@@ -62,8 +62,5 @@
 		}	
 	}
 	
-	docsapp.templates = templates;
-	
-	window.docsapp = docsapp;
-
-})(window.docsapp || {});
+	return templates;
+});
