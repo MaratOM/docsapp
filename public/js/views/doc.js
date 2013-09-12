@@ -1,5 +1,5 @@
-define(["jquery", "underscore", "backbone", "templates"],
-	function($, _, Backbone, templates) {
+define(["jquery", "underscore", "backbone", "templates", "views/docedit"],
+	function($, _, Backbone, templates, DocEditView) {
 
     var DocView = Backbone.View.extend({
       tagName:  "tr",
