@@ -1,5 +1,8 @@
 @import "compass/css3";
 
+@import url("reset.css");
+@import url("sprites_disc.css");
+
 $active_red: #ff3d00;
 
 html {
@@ -129,11 +132,21 @@ input {
 #delete-docs {
   display: inline-block;
 }
+
+.content {
+  margin: 1em 0;
+  border: 1px solid #cccccc;
+  background-color: #fafafa;
+}
+
+#docs-table-wrapper {
+  height: 180px;
+  overflow: auto;
+}
   
-#docs-table {
+#docs-table, #docs-theader {
   width: 100%;
   padding: 0;
-  margin: 1em 0;
   border-collapse:collapse;
   clear: left;
 
@@ -158,7 +171,7 @@ input {
   }
   
   tr, th {
-    border: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
   }
   
   th {
@@ -171,9 +184,13 @@ input {
     background: linear-gradient(to bottom, rgba(249,249,249,1) 0%,rgba(232,232,232,1) 72%,rgba(229,229,229,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f9f9', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
 
-    
     &.title {
       text-align: left;
+    }
+    
+    &.code {
+      border-left: 1px solid #cccccc;
+      border-right: 1px solid #cccccc;
     }    
     
     &.code.sorted, &.title.sorted {
@@ -187,6 +204,7 @@ input {
   td {
     border-top: none;
     vertical-align: middle;
+    background-color: #ffffff;
 
     input[type="text"] {
       width: 100%;

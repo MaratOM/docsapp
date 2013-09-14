@@ -6,7 +6,7 @@ define(["backbone", "templates", "data"],
       templateLoadData: templates.loadData,
       
       events: {
-        "click a.load-data": "loadData"
+        "click a.load-data": "clearAndLoadData"
       },
       
       initialize: function() {
@@ -18,11 +18,15 @@ define(["backbone", "templates", "data"],
         
         return this;
       },
+			
+      clearAndLoadData: function() {
+				localStorage.clear('docsapp');
+				this.loadData();       
+      }, 			
       
       loadData: function() {
-       localStorage.clear('docsapp');
-       docsapp.docsList.fetch();
-        _.each(dataToLoad, function(model) {docsapp.docsList.create(model);});        
+			  docsapp.docsList.fetch();
+				_.each(dataToLoad, function(model) {docsapp.docsList.create(model);});
       }       
     });
 		

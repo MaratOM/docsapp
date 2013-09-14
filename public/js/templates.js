@@ -16,15 +16,24 @@ define(["underscore"], function(_) {
 		"</div>" 
 	].join("");
 
-	templates.docsThead = [
-		"<thead>",
-			"<tr>",
-				"<% if(deletingEnabled) {%><th class=\"checkbox\" title=\"Отметить все документы для удаления\"><input class=\"check\" type=\"checkbox\" /></th><%}%>",
-				"<th class=\"code<% if(sortingEnabled) {%> sorted<%}%>\" title=\"Сортировать по коду документа\">Код<% if(sortingEnabled) {%><span class=\"sort-arrow\">&#8597;</span><%}%></th>",
-				"<th class=\"title<% if(sortingEnabled) {%> sorted<%}%>\" title=\"Сортировать по названию документа\">Наименование документа<% if(sortingEnabled) {%><span class=\"sort-arrow\">&#8597;</span><%}%></th>",
-			"</tr>",
-		"</thead>" 
+	templates.docsTHeader = [
+		"<table id=\"docs-theader\">",
+			"<thead>",
+				"<tr>",
+					"<% if(deletingEnabled) {%><th class=\"checkbox\" title=\"Отметить все документы для удаления\"><input class=\"check\" type=\"checkbox\" /></th><%}%>",
+					"<th class=\"code<% if(sortingEnabled) {%> sorted<%}%>\" title=\"Сортировать по коду документа\">Код<% if(sortingEnabled) {%><span class=\"sort-arrow\">&#8597;</span><%}%></th>",
+					"<th class=\"title<% if(sortingEnabled) {%> sorted<%}%>\" title=\"Сортировать по названию документа\">Наименование документа<% if(sortingEnabled) {%><span class=\"sort-arrow\">&#8597;</span><%}%></th>",
+				"</tr>",
+			"</thead>",
+		"</table>"
 	].join("");
+	
+	templates.docsTData = [
+		"<div id=\"docs-table-wrapper\">",
+			"<table id=\"docs-table\">",
+			"</table>",
+		"</div>"
+	].join("");	
 	
 	templates.docsList = [
 		"<% if(doc.toDelete) {var toDeleteClass='class=\"to-delete\"'}%>",

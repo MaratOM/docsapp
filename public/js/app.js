@@ -1,6 +1,7 @@
 require.config({
 		baseUrl: "../js",
     paths:{
+        'domready': 'lib/domready',
 				'jquery': 'lib/jquery-min',
         'underscore': 'lib/underscore-min',
         'backbone': 'lib/backbone-min',
@@ -21,7 +22,9 @@ require.config({
   }
 });
 
-require(["router"], function(router) {
+require(["domready", "router"], function(domReady, router) {
+  domReady(function () {
     new router();
     Backbone.history.start();
+  });
 });	

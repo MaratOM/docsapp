@@ -2,12 +2,12 @@ define("docsapp",
   ["jquery", "underscore", "backbone", "backbone-localstorage",
    "models/doc", "models/demooption",
    "collections/docs", "collections/demooptions",
-   "views/error", "views/doc", "views/docedit", "views/sort", "views/search", "views/create", "views/docs",
+   "views/error", "views/doc", "views/docedit", "views/sort", "views/search", "views/create", "views/docs", "views/scrolltable",
    "views/loaddata","views/delete", "views/demooption", "views/demooptions"],
 	function($, _, Backbone, bl,
     Doc, DemoOption,
     DocsList, DemoOptionsList,
-    ErrorView, DocView, DocEditView, SortView, SearchView, CreateDocView, DocsListView,
+    ErrorView, DocView, DocEditView, SortView, SearchView, CreateDocView, DocsListView, ScrollTableView,
     LoadDataView, DeleteItemsView, DemoOptionView, DemoOptionsListView) {
   
     var docsapp = {};
@@ -31,6 +31,7 @@ define("docsapp",
 
         docsapp.errorView = new ErrorView({});  
         docsapp.docsListView = new DocsListView({collection: docsapp.docsList});
+        new ScrollTableView();
 
         if(docsapp.searchingEnabled) {
           docsapp.searchView = {};
@@ -46,7 +47,7 @@ define("docsapp",
           docsapp.sortView = new SortView({collection : docsapp.docsList});
         }
 
-        new LoadDataView();
+        docsapp.loadDataView = new LoadDataView();
 
         docsapp.demoOptionsListView = new DemoOptionsListView({
           collection: new DemoOptionsList([

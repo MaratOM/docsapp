@@ -2,34 +2,36 @@ define(["jquery", "underscore", "backbone", "templates", "views/doc"],
 	function($, _, Backbone, templates, DocView) {
 
     var DocsListView = Backbone.View.extend({
-      tagName: "table",
-      id: "docs-table",
+			el: '.content',
       collectionViewed: [],
       collectionToDeleteAll: [],
       toggleDeleleAllChecked: false,
       
-      templateDocsThead: templates.docsThead,
+      templateDocsTHeader: templates.docsTHeader,
+			templateDocsTData: templates.docsTData,
       templateNoDocs: templates.noDocs,      
       
       events: {
-        "change   th .check"        : "toggleDeleleAll"
+        "change  th .check" 					: "toggleDeleleAll"
       },      
   
       initialize: function() {
         _.bindAll(this, 'addOne', 'addAll', 'render');
         this.collection.bind('add', this.addOne);
 
+				this.$el.append(this.templateDocsTData());
+				this.dataTable = this.$('#docs-table');
+				
         this.collection.fetch();
         this.render();
       },
   
       render: function() {
-        this.$el.prepend(this.templateDocsThead({
+        this.$el.prepend(this.templateDocsTHeader({
           sortingEnabled: docsapp.sortingEnabled,
           deletingEnabled: docsapp.deletingEnabled
         }));
-        docsapp.contentEl.append(this.el);
-        
+
         if(this.collection.length <= 1) {
           if(docsapp.sortingEnabled) this.hideSortingArrows();
           if(this.collection.length == 0) {
@@ -41,7 +43,7 @@ define(["jquery", "underscore", "backbone", "templates", "views/doc"],
       },
       
       noDocs: function() {
-        this.$el.append(this.templateNoDocs);
+        this.dataTable.append(this.templateNoDocs);
       }, 
   
       addOne: function(model) {
@@ -58,7 +60,7 @@ define(["jquery", "underscore", "backbone", "templates", "views/doc"],
             editingEnabled: docsapp.editingEnabled,
             searchingEnabled: docsapp.searchingEnabled
           }));
-          this.$el.append(_.last(this.collectionViewed).render().el);
+          this.dataTable.append(_.last(this.collectionViewed).render().el);
         }
       },
   
@@ -91,7 +93,14 @@ define(["jquery", "underscore", "backbone", "templates", "views/doc"],
         _.each(collectionToMarkToDelete, function(model){ model.set('toDelete', false); });
         }
         this.toggleDeleleAllChecked = !this.toggleDeleleAllChecked;
-      }      
+      },
+			
+      toggleDeleleAllUncheck: function() {
+				if(this.toggleDeleleAllChecked && !this.collection.toDelete().length) {
+					this.toggleDeleleAllChecked = false;
+					docsapp.docsListView.$('th .check').prop('checked', false);
+				}
+      }			
     });  
 		
 		return DocsListView;

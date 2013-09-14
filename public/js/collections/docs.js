@@ -3,9 +3,9 @@ define(["backbone", "backbone-localstorage", "models/doc"],
 
     var DocsList = Backbone.Collection.extend({
       model: Doc,
-      sortField: 'code',
-      codeSortOrder: 'asc',
-      titleSortOrder: 'asc',      
+      sortField: '',
+      codeSortOrder: 'desc',
+      titleSortOrder: 'desc',      
       searchText: '',
       
       localStorage: new Store("docs"),
@@ -19,17 +19,24 @@ define(["backbone", "backbone-localstorage", "models/doc"],
       },
       
       comparator: function(a,b) {
-        var aComp, bComp;
-        if(this.sortField == 'code') {
-          aComp = parseInt(a.get(this.sortField), 10);
-          bComp = parseInt(b.get(this.sortField), 10);        
-        }
-        else if(this.sortField == 'title'){
-          aComp = a.get(this.sortField);
-          bComp = b.get(this.sortField);
-        }
-        
-        return this[this.sortField + 'SortOrder'] === 'asc' ? aComp > bComp : aComp < bComp;       
+        var aComp, bComp, returnVal;
+
+				aComp = a.get(this.sortField);
+				bComp = b.get(this.sortField);
+
+				if(aComp == bComp) {
+					returnVal = 0;
+				}
+				else {
+					if(this[this.sortField + 'SortOrder'] === 'asc') {
+						returnVal = aComp > bComp ? 1 : -1;
+					}
+					else if(this[this.sortField + 'SortOrder'] === 'desc') {
+						returnVal = aComp < bComp ? 1 : -1;
+					}
+				}
+
+				return returnVal;
       }
     });
 		

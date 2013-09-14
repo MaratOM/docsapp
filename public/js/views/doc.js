@@ -37,6 +37,7 @@ define(["jquery", "underscore", "backbone", "templates", "views/docedit"],
   
       toggleDelete: function() {
         this.model.toggleDelete();
+				docsapp.docsListView.toggleDeleleAllUncheck();
       },
       
       edit: function(e) {
@@ -65,6 +66,7 @@ define(["jquery", "underscore", "backbone", "templates", "views/docedit"],
       destroy: function() {
         if(docsapp.deletingEnabled) {
           docsapp.deleteItemsView.destroy(this.model);
+					docsapp.docsListView.toggleDeleleAllUncheck();
         }
       }
     });

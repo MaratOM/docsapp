@@ -2,7 +2,7 @@ define(["jquery", "backbone"],
 	function($, Backbone) {
 
     var SortView = Backbone.View.extend({
-      el: "#docs-table thead",
+      el: "#docs-theader",
       sortedBy: '',
       addingItem: false,
       
